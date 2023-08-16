@@ -1,0 +1,9 @@
+.content {
+    grid-area: content;
+    background-color: #F0F2F5;
+    outline: 1px solid rgba(58, 68, 76, 1);
+}
+
+.content img {
+    max-width: 400px;
+}
