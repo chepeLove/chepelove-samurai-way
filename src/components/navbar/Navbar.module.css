@@ -1,4 +1,4 @@
-.sidebar {
+.navbar {
     grid-area: sidebar;
     background-color: #23252B;
     text-align: center;
@@ -6,6 +6,10 @@
 }
 
 .item a{
-    color:#FFF;
+    color:#FFFF;
     text-decoration: none;
+}
+
+.item a.active {
+    color:#5992FF;
 }

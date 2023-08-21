@@ -9,3 +9,13 @@
     "header header"
     "sidebar content";
 }
+
+.app__wrapper-content {
+        grid-area: content;
+        background-color: #F0F2F5;
+        outline: 1px solid rgba(58, 68, 76, 1);
+}
+
+.app__wrapper-content img {
+    max-width: 400px;
+}
