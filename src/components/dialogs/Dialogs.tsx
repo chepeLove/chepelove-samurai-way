@@ -1,25 +1,28 @@
 import React from 'react';
 import style from './Dialogs.module.css'
+import {DialogsItems} from "./dialogsItem/DialogsItems";
+import {Message} from "./message/Message";
+import {dialogsStateType} from "../../App";
 
-import {DialogsItems} from "./DialogsItems";
-import {Message} from "./Message";
+type dialogsPropsType = {
+    dialogsState:dialogsStateType
+}
 
-
-export const Dialogs = () => {
+export const Dialogs = (props:dialogsPropsType) => {
     return (
         <>
             <div className={style.dialogs}>
                 <div className={style.dialogsItems}>
-                    <DialogsItems name ={'Dima'} id = '1'/>
-                    <DialogsItems name ={'Kiril'} id = '2'/>
-                    <DialogsItems name ={'Mark'} id = '3'/>
-                    <DialogsItems name ={'Sasha'} id = '4'/>
-                    <DialogsItems name ={'Vova'} id = '5'/>
+                    {props.dialogsState.dialogs.map((dialog)=>{
+                        return(<DialogsItems name ={dialog.name} id = {dialog.id}/>
+                        )})}
                 </div>
                 <div className={style.messages}>
-                    <Message message={'Hi'}/>
-                    <Message message={'welcome'}/>
-                    <Message message={'what'}/>
+                    {props.dialogsState.messages.map((message)=>{
+                        return(
+                            <Message message={message.message}/>
+                        )
+                    })}
                 </div>
             </div>
         </>

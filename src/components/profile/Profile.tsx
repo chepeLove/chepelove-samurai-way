@@ -1,11 +1,19 @@
 import React from 'react';
 import {Posts} from "./posts/Posts";
 import {ProfileInfo} from "./profileInfo/ProfileInfo";
-export const Profile = () => {
+import {profileStateType} from "../../App";
+
+
+
+type profilePropsType = {
+    profileState:profileStateType
+}
+
+export const Profile = (props:profilePropsType) => {
     return (
         <div>
             <ProfileInfo/>
-            <Posts/>
+            <Posts posts ={props.profileState.posts} />
         </div>
     );
 };

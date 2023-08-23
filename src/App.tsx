@@ -9,15 +9,51 @@ import {News} from "./components/news/News";
 import {Music} from "./components/music/Music";
 import {Setting} from "./components/setting/Setting";
 
-function App() {
+export type postsType = {
+    post:string,
+    id:string,
+    likeCount:string
+}
+
+export type dialogsType = {
+    name:string,
+    id:string
+}
+
+export type profileStateType = {
+    posts:postsType[]
+}
+
+export type messagesType = {
+    message:string,
+    id:string
+}
+
+export type dialogsStateType = {
+    messages:messagesType[]
+    dialogs:dialogsType[]
+}
+
+export type appStateType = {
+    profileState:profileStateType
+    dialogsState:dialogsStateType
+}
+
+
+export type appPropsType = {
+    appState: appStateType
+}
+
+
+function App(props:appPropsType) {
     return (
         <BrowserRouter>
             <div className="app__wrapper">
                 <Header/>
                 <Navbar/>
                 <div className={"app__wrapper-content"}>
-                    <Route component={Profile} path={'/profile'}/>
-                    <Route component={Dialogs} path={'/dialogs'}/>
+                    <Route render={()=><Profile profileState = {props.appState.profileState}/>} path={'/profile'}/>
+                    <Route component={()=><Dialogs dialogsState = {props.appState.dialogsState}/>} path={'/dialogs'}/>
                     <Route component={News} path={'/news'}/>
                     <Route component={Music} path={'/music'}/>
                     <Route component={Setting} path={'/setting'}/>

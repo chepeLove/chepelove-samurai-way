@@ -1,8 +1,12 @@
 import React from 'react';
 import {Post} from "./post/Post";
+import {postsType} from "../../../App";
 
+type postsPropsType = {
+    posts:postsType[]
+}
+export const Posts = (props:postsPropsType) => {
 
-export const Posts = () => {
     return (
         <div>
             My posts
@@ -13,8 +17,11 @@ export const Posts = () => {
             <div>
                 New posts
             </div>
-            <Post message = {'Hi, how are you ?'} likeCount ={10}/>
-            <Post message = {"It's my first post"} likeCount ={20}/>
+            {props.posts.map((post)=>{
+                return(
+                    <Post post = {post.post} likeCount ={post.likeCount}/>
+                )
+            })}
         </div>
     );
 };
