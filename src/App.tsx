@@ -42,7 +42,9 @@ export type appStateType = {
 
 export type appPropsType = {
     appState: appStateType
+    addPost:(postMessage: string) => void
 }
+
 
 
 function App(props:appPropsType) {
@@ -52,7 +54,7 @@ function App(props:appPropsType) {
                 <Header/>
                 <Navbar/>
                 <div className={"app__wrapper-content"}>
-                    <Route render={()=><Profile profileState = {props.appState.profileState}/>} path={'/profile'}/>
+                    <Route render={()=><Profile profileState = {props.appState.profileState} addPost = {props.addPost}/>} path={'/profile'}/>
                     <Route component={()=><Dialogs dialogsState = {props.appState.dialogsState}/>} path={'/dialogs'}/>
                     <Route component={News} path={'/news'}/>
                     <Route component={Music} path={'/music'}/>
