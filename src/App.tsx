@@ -8,43 +8,13 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./components/news/News";
 import {Music} from "./components/music/Music";
 import {Setting} from "./components/setting/Setting";
-
-export type postsType = {
-    post:string,
-    id:string,
-    likeCount:string
-}
-
-export type dialogsType = {
-    name:string,
-    id:string
-}
-
-export type profileStateType = {
-    posts:postsType[]
-}
-
-export type messagesType = {
-    message:string,
-    id:string
-}
-
-export type dialogsStateType = {
-    messages:messagesType[]
-    dialogs:dialogsType[]
-}
-
-export type appStateType = {
-    profileState:profileStateType
-    dialogsState:dialogsStateType
-}
-
+import {StateType} from "./redux/state";
 
 export type appPropsType = {
-    appState: appStateType
-    addPost:(postMessage: string) => void
+    appState: StateType
+    addPost:() => void
+    updateNewPostText:(newPostText:string) => void
 }
-
 
 
 function App(props:appPropsType) {
@@ -54,7 +24,10 @@ function App(props:appPropsType) {
                 <Header/>
                 <Navbar/>
                 <div className={"app__wrapper-content"}>
-                    <Route render={()=><Profile profileState = {props.appState.profileState} addPost = {props.addPost}/>} path={'/profile'}/>
+                    <Route render={()=><Profile profileState = {props.appState.profileState}
+                                                addPost = {props.addPost}
+                                                updateNewPostText={props.updateNewPostText}
+                    />} path={'/profile'}/>
                     <Route component={()=><Dialogs dialogsState = {props.appState.dialogsState}/>} path={'/dialogs'}/>
                     <Route component={News} path={'/news'}/>
                     <Route component={Music} path={'/music'}/>
