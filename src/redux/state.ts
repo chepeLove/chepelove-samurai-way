@@ -1,7 +1,8 @@
+const ADD_POST = 'ADD-POST';
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
+const SEND_MESSAGE = 'SEND-MESSAGE'
 
-let rerenderEntireTree = (store: StoreType) => {
-
-}
 export type postsType = {
     post:string,
     id:string,
@@ -27,6 +28,7 @@ export type messagesType = {
 export type dialogsStateType = {
     messages:messagesType[]
     dialogs:dialogsType[]
+    newMessageText:string
 }
 
 export type StateType = {
@@ -34,11 +36,18 @@ export type StateType = {
     dialogsState:dialogsStateType
 }
 
+export type ActionDispatchType = {
+    type:string
+    newPostText?:string
+    newMessageText?:string
+}
+
 export type StoreType = {
     state:StateType
-    addPost: ()=>void
-    updateNewPostText:(newPostText:string)=>void
-    subscribe:(observer:(store:StoreType)=>void) => void
+    subscribe:(observer:(state: StateType)=>void) => void
+    getState:()=>StateType
+    callSubscriber:(state: StateType) => void
+    dispatch:(action:ActionDispatchType)=>void
 }
 
 export let store:StoreType = {
@@ -61,6 +70,7 @@ export let store:StoreType = {
                 { message:'Hello', id:'4'},
                 { message:'qq', id:'5'},
             ],
+            newMessageText:'',
             dialogs:[
                 { name:'Dima', id:'1'},
                 { name:'Kiril', id:'2'},
@@ -70,75 +80,71 @@ export let store:StoreType = {
             ]
         }
     },
-    addPost(){
-        let newPost = {
-            post:this.state.profileState.newPostText,
-            id: '5',
-            likeCount:'110',
+    getState(){
+        return this.state
+    },
+    callSubscriber(state){
+
+    },
+    subscribe(observer){
+        this.callSubscriber = observer
+    },
+    dispatch(action){
+        if(action.type === ADD_POST){
+            let newPost = {
+                post:this.state.profileState.newPostText,
+                id: '5',
+                likeCount:'110',
+            }
+            this.state.profileState.posts.push(newPost)
+            this.state.profileState.newPostText = ''
+            this.callSubscriber(this.state)
         }
-        this.state.profileState.posts.push(newPost)
-        this.state.profileState.newPostText = ''
-        rerenderEntireTree(store)
-    },
-    updateNewPostText(newPostText:string){
-        this.state.profileState.newPostText = newPostText
-        rerenderEntireTree(store)
-    },
-    subscribe(observer:(store:StoreType)=>void){
-        rerenderEntireTree = observer
-    },
+        else if (action.type === UPDATE_NEW_POST_TEXT){
+            if (action.newPostText != null) {
+                this.state.profileState.newPostText = action.newPostText
+            }
+            this.callSubscriber(this.state)
+        }
+        else if (action.type === UPDATE_NEW_MESSAGE_TEXT){
+            if (action.newMessageText != null) {
+                this.state.dialogsState.newMessageText = action.newMessageText
+                this.callSubscriber(this.state)
+            }
+        }
+        else if (action.type === SEND_MESSAGE){
+            let newMessage = this.state.dialogsState.newMessageText
+                this.state.dialogsState.newMessageText = ''
+                this.state.dialogsState.messages.push({ message:newMessage, id:'6'},)
+            this.callSubscriber(this.state)
+        }
+    }
 }
 
+export const addPostActionCreator = () =>{
+    return {
+        type: ADD_POST
+    }
+}
+export const updateNewPostActionCreator = (newPostText:string) => {
+    return {
+        type: UPDATE_NEW_POST_TEXT,
+        newPostText:newPostText
+    }
+}
 
+export const updateNewMessageActionCreator = (newMessageText:string) => {
+    return {
+        type: UPDATE_NEW_MESSAGE_TEXT,
+        newMessageText:newMessageText
+    }
+}
 
-// export let state = {
-//     profileState:{
-//         posts:[
-//             { post:'Hi', id:'1',likeCount:'10'},
-//             { post:'Hi, how are you ?', id:'2',likeCount:'20'},
-//             { post:'It\'s my first post?', id:'3',likeCount:'30'},
-//             { post:'Hello', id:'4',likeCount:'40'},
-//             { post:'qq', id:'5',likeCount:'50'},
-//         ],
-//         newPostText: ''
-//     },
-//     dialogsState:{
-//         messages:[
-//             { message:'Hi', id:'1'},
-//             { message:'welcome', id:'2'},
-//             { message:'what?', id:'3'},
-//             { message:'Hello', id:'4'},
-//             { message:'qq', id:'5'},
-//         ],
-//         dialogs:[
-//             { name:'Dima', id:'1'},
-//             { name:'Kiril', id:'2'},
-//             { name:'Mark', id:'3'},
-//             { name:'Sasha', id:'4'},
-//             { name:'Vova', id:'5'},
-//         ]
-//     }
-// }
-
-// export const addPost = ()=>{
-//     let newPost = {
-//         post:state.profileState.newPostText,
-//         id:'5',
-//         likeCount:'110'
-//     }
-//     state.profileState.posts.push(newPost)
-//     state.profileState.newPostText = ''
-//     rerenderEntireTree(state)
-// }
-
-// export const updateNewPostText = (newPostText:string) => {
-//     state.profileState.newPostText = newPostText
-//     rerenderEntireTree(state)
-// }
-
-// export const subscribe = (observer:()=>void) => {
-//     rerenderEntireTree = observer
-// }
+export const sendMessageActionCreator = () => {
+    return {
+        type: SEND_MESSAGE,
+    }
+}
 
 
 

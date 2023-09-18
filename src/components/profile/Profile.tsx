@@ -1,15 +1,14 @@
 import React from 'react';
 import {Posts} from "./posts/Posts";
 import {ProfileInfo} from "./profileInfo/ProfileInfo";
-import {profileStateType} from "../../redux/state";
+import {ActionDispatchType, profileStateType} from "../../redux/state";
 
 
 
 
 type profilePropsType = {
     profileState:profileStateType
-    addPost:() => void
-    updateNewPostText:(newPostText:string) => void
+    dispatch:(action:ActionDispatchType)=>void
 }
 
 export const Profile = (props:profilePropsType) => {
@@ -17,9 +16,8 @@ export const Profile = (props:profilePropsType) => {
         <div>
             <ProfileInfo/>
             <Posts posts ={props.profileState.posts}
-                   addPost={props.addPost}
+                   dispatch={props.dispatch}
                    newPostText={props.profileState.newPostText}
-                   updateNewPostText = {props.updateNewPostText}
             />
         </div>
     );
