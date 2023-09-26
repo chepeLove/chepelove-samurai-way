@@ -1,7 +1,6 @@
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
-const SEND_MESSAGE = 'SEND-MESSAGE'
+import {ProfileReducer} from "./profile-reducer";
+import {DialogsReducer} from "./dialogs-reducer";
+
 
 export type postsType = {
     post:string,
@@ -90,61 +89,17 @@ export let store:StoreType = {
         this.callSubscriber = observer
     },
     dispatch(action){
-        if(action.type === ADD_POST){
-            let newPost = {
-                post:this.state.profileState.newPostText,
-                id: '5',
-                likeCount:'110',
-            }
-            this.state.profileState.posts.push(newPost)
-            this.state.profileState.newPostText = ''
-            this.callSubscriber(this.state)
-        }
-        else if (action.type === UPDATE_NEW_POST_TEXT){
-            if (action.newPostText != null) {
-                this.state.profileState.newPostText = action.newPostText
-            }
-            this.callSubscriber(this.state)
-        }
-        else if (action.type === UPDATE_NEW_MESSAGE_TEXT){
-            if (action.newMessageText != null) {
-                this.state.dialogsState.newMessageText = action.newMessageText
-                this.callSubscriber(this.state)
-            }
-        }
-        else if (action.type === SEND_MESSAGE){
-            let newMessage = this.state.dialogsState.newMessageText
-                this.state.dialogsState.newMessageText = ''
-                this.state.dialogsState.messages.push({ message:newMessage, id:'6'},)
-            this.callSubscriber(this.state)
-        }
+
+        this.state.profileState = ProfileReducer(this.state.profileState,action)
+        this.state.dialogsState = DialogsReducer( this.state.dialogsState,action)
+
+        this.callSubscriber(this.state)
     }
 }
 
-export const addPostActionCreator = () =>{
-    return {
-        type: ADD_POST
-    }
-}
-export const updateNewPostActionCreator = (newPostText:string) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newPostText:newPostText
-    }
-}
 
-export const updateNewMessageActionCreator = (newMessageText:string) => {
-    return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
-        newMessageText:newMessageText
-    }
-}
 
-export const sendMessageActionCreator = () => {
-    return {
-        type: SEND_MESSAGE,
-    }
-}
+
 
 
 
