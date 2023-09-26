@@ -43,8 +43,8 @@ export type ActionDispatchType = {
 
 export type StoreType = {
     state:StateType
-    subscribe:(observer:(state: StateType)=>void) => void
-    getState:()=>StateType
+    subscribe:(observer:()=>void) => void
+    getState:() => StateType
     callSubscriber:(state: StateType) => void
     dispatch:(action:ActionDispatchType)=>void
 }

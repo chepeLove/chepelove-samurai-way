@@ -1,12 +1,12 @@
 import React, {useRef} from 'react';
 import {Post} from "./post/Post";
-import {ActionDispatchType,postsType} from "../../../redux/state";
-import {addPostActionCreator, updateNewPostActionCreator} from "../../../redux/profile-reducer";
+import {ActionDispatchType,postsType} from "../../../redux/store";
 
 type postsPropsType = {
     posts:postsType[]
     newPostText:string
-    dispatch:(action:ActionDispatchType)=>void
+    updateNewPostText:(newPostText:string)=>void
+    addPost:()=>void
 }
 
 
@@ -15,14 +15,13 @@ export const Posts = (props:postsPropsType) => {
 
         const newPostElement = useRef<HTMLTextAreaElement>(null)
 
-    const addPost = () => {
-            props.dispatch(addPostActionCreator())
+    const onAddPost = () => {
+        props.addPost()
     }
 
     const onPostChange = () => {
         if (newPostElement.current !== null) {
-            let action = updateNewPostActionCreator(newPostElement.current.value)
-            props.dispatch(action)
+           props.updateNewPostText(newPostElement.current.value)
         }
     }
     return (
@@ -30,7 +29,7 @@ export const Posts = (props:postsPropsType) => {
             My posts
             <div>
                 <textarea ref={newPostElement} value={props.newPostText} onChange={onPostChange}/>
-                <button onClick={addPost}>add post</button>
+                <button onClick={onAddPost}>add post</button>
             </div>
             <div>
                 New posts
