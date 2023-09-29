@@ -1,21 +1,33 @@
 
-import {ActionDispatchType, profileStateType} from "./store";
-
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 
-const initialState = {
-    posts:[
-        { post:'Hi', id:'1',likeCount:'10'},
-        { post:'Hi, how are you ?', id:'2',likeCount:'20'},
-        { post:'It\'s my first post?', id:'3',likeCount:'30'},
-        { post:'Hello', id:'4',likeCount:'40'},
-        { post:'qq', id:'5',likeCount:'50'},
-    ],
-    newPostText: ''
+export type postsType = {
+    post: string,
+    id: string,
+    likeCount: string
 }
 
-export const ProfileReducer = (state:profileStateType = initialState,action:ActionDispatchType) => {
+export type ActionProfileDispatchType = {
+    type: string
+    newPostText: string
+}
+
+type InitialProfileStateType = typeof initialState
+
+const initialState = {
+    posts: [
+        {post: 'Hi', id: '1', likeCount: '10'},
+        {post: 'Hi, how are you ?', id: '2', likeCount: '20'},
+        {post: 'It\'s my first post?', id: '3', likeCount: '30'},
+        {post: 'Hello', id: '4', likeCount: '40'},
+        {post: 'qq', id: '5', likeCount: '50'},
+    ] as postsType[],
+    newPostText: '' as string
+}
+
+export const ProfileReducer = (state: InitialProfileStateType = initialState,
+                               action: ActionProfileDispatchType): InitialProfileStateType => {
     switch (action.type) {
         case ADD_POST:
             let newPost = {
@@ -23,26 +35,26 @@ export const ProfileReducer = (state:profileStateType = initialState,action:Acti
                 id: '5',
                 likeCount: '110',
             }
-            state.posts.push(newPost)
-            state.newPostText = ''
-            break;
+             return {...state,posts: [...state.posts,newPost],newPostText: ''}
         case UPDATE_NEW_POST_TEXT:
-            if (action.newPostText != null) {
-                state.newPostText = action.newPostText
+            if (action.newPostText) {
+                return {...state,newPostText:action.newPostText }
             }
-            break;
-    }
-    return state
+            return state
+        default:
+            return state
+        }
+
 };
 
-export const addPostActionCreator = () =>{
+export const addPostActionCreator = () => {
     return {
         type: ADD_POST
     }
 }
-export const updateNewPostActionCreator = (newPostText:string) => {
+export const updateNewPostActionCreator = (newPostText: string) => {
     return {
         type: UPDATE_NEW_POST_TEXT,
-        newPostText:newPostText
+        newPostText: newPostText
     }
 }

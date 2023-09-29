@@ -1,17 +1,8 @@
 import React, {useRef} from 'react';
 import {Post} from "./post/Post";
-import {ActionDispatchType,postsType} from "../../../redux/store";
+import {PostsType} from "./PostsContainer";
 
-type postsPropsType = {
-    posts:postsType[]
-    newPostText:string
-    updateNewPostText:(newPostText:string)=>void
-    addPost:()=>void
-}
-
-
-
-export const Posts = (props:postsPropsType) => {
+export const Posts = (props:PostsType) => {
 
         const newPostElement = useRef<HTMLTextAreaElement>(null)
 
