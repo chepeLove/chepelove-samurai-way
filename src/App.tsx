@@ -3,17 +3,16 @@ import './App.css';
 import {Header} from "./components/header/Header";
 import {Navbar} from "./components/navbar/Navbar";
 import {Profile} from "./components/profile/Profile";
-import {BrowserRouter, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 import {News} from "./components/news/News";
 import {Music} from "./components/music/Music";
 import {Setting} from "./components/setting/Setting";
 import {DialogsContainer} from "./components/dialogs/DialogsContainer";
-import {Users} from "./components/users/Users";
+import {UsersContainer} from "./components/users/UsersContainer";
 
 
 export const App = () => {
     return (
-        <BrowserRouter>
             <div className="app__wrapper">
                 <Header/>
                 <Navbar/>
@@ -25,7 +24,7 @@ export const App = () => {
                     />}
                            path={'/dialogs'}
                     />
-                    <Route component={() => <Users/>}
+                    <Route component={() => <UsersContainer/>}
                            path={'/users'}
                     />
                     <Route component={News} path={'/news'}/>
@@ -33,6 +32,5 @@ export const App = () => {
                     <Route component={Setting} path={'/setting'}/>
                 </div>
             </div>
-        </BrowserRouter>
     );
 }

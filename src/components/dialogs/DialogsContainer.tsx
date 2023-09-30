@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     InitialDialogsStateType,
     sendMessageAC,
@@ -10,7 +9,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
 
 type MapStateToPropsType = {
-    dialogsState:InitialDialogsStateType
+    dialogsPage:InitialDialogsStateType
 }
 
 type mapDispatchToPropsType = {
@@ -22,7 +21,7 @@ export type DialogsType = MapStateToPropsType & mapDispatchToPropsType
 
 let mapStateToProps = (state:AppStateType):MapStateToPropsType=>{
     return {
-        dialogsState:state.dialogsState
+        dialogsPage:state.dialogsPage
     }
 }
 

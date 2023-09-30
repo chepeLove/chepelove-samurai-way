@@ -1,4 +1,3 @@
-import React from 'react';
 import {addPostActionCreator, postsType, updateNewPostActionCreator} from "../../../redux/profile-reducer";
 import {Posts} from "./Posts";
 import {Dispatch} from "redux";
@@ -19,8 +18,8 @@ export type PostsType = mapStateToPropsType & mapDispatchToProps
 
 const mapStateToProps = (state:AppStateType):mapStateToPropsType => {
     return {
-        posts:state.profileState.posts,
-        newPostText:state.profileState.newPostText
+        posts:state.profilePage.posts,
+        newPostText:state.profilePage.newPostText
     }
 }
 

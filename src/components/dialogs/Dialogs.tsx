@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useRef} from 'react';
+import React, {useRef} from 'react';
 import style from './Dialogs.module.css'
 import {DialogsItems} from "./dialogsItem/DialogsItems";
 import {Message} from "./message/Message";
@@ -6,7 +6,7 @@ import {DialogsType} from "./DialogsContainer";
 
 export const Dialogs = (props: DialogsType) => {
 
-    const dialogsElement = props.dialogsState.dialogs.map((dialog) => {
+    const dialogsElement = props.dialogsPage.dialogs.map((dialog) => {
         return (
             <DialogsItems key={dialog.id} name={dialog.name}
                           id={dialog.id}
@@ -14,7 +14,7 @@ export const Dialogs = (props: DialogsType) => {
         )
     })
 
-    const messagesElements = props.dialogsState.messages.map((message) => {
+    const messagesElements = props.dialogsPage.messages.map((message) => {
         return (
             <Message key={message.id} message={message.message}/>
         )
@@ -46,7 +46,7 @@ export const Dialogs = (props: DialogsType) => {
                                 ref={newMessageElement}
                                 placeholder="Enter your message"
                                 onChange={onNewMessageChange}
-                                value={props.dialogsState.newMessageText}
+                                value={props.dialogsPage.newMessageText}
                             />
                         </div>
                         <div>
