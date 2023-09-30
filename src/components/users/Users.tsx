@@ -1,10 +1,9 @@
 import React from 'react';
 
-export const SidebarReducer = () => {
+export const Users = () => {
     return (
         <div>
-
+            
         </div>
     );
 };
-

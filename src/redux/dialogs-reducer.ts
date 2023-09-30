@@ -1,7 +1,3 @@
-import {deflate} from "zlib";
-
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
-const SEND_MESSAGE = 'SEND-MESSAGE'
 
 export type dialogsType = {
     name: string,
@@ -13,14 +9,15 @@ export type messagesType = {
     id: string
 }
 
-export type ActionDialogsDispatchType = {
-    type: string
-    newMessageText: string
+export type ActionDialogsDispatchType = UpdateNewMessageTextACType | SendMessageACType
+
+export type InitialDialogsStateType = {
+    messages:messagesType[]
+    newMessageText:string
+    dialogs:dialogsType[]
 }
 
-export type InitialDialogsStateType = typeof initialState
-
-const initialState = {
+const initialState:InitialDialogsStateType = {
     messages: [
         {message: 'Hi', id: '1'},
         {message: 'welcome', id: '2'},
@@ -41,12 +38,12 @@ export const DialogsReducer = (state: InitialDialogsStateType = initialState,
                                action: ActionDialogsDispatchType): InitialDialogsStateType => {
 
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_TEXT:
-            if (action.newMessageText) {
-                return {...state,newMessageText:action.newMessageText }
+        case 'UPDATE-NEW-MESSAGE-TEXT':
+            if (action.payload.newMessageText) {
+                return {...state,newMessageText:action.payload.newMessageText }
             }
             return state
-        case SEND_MESSAGE:
+        case 'SEND-MESSAGE':
             let newMessage = {message:state.newMessageText,id:'6'}
             return  {...state,messages: [...state.messages,newMessage],newMessageText: ''}
         default:
@@ -54,16 +51,23 @@ export const DialogsReducer = (state: InitialDialogsStateType = initialState,
     }
 };
 
-export const updateNewMessageActionCreator = (newMessageText: string) => {
+type UpdateNewMessageTextACType = ReturnType<typeof updateNewMessageTextAC>
+
+export const updateNewMessageTextAC = (newMessageText: string) => {
     return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
-        newMessageText: newMessageText
+        type: 'UPDATE-NEW-MESSAGE-TEXT',
+        payload:{
+            newMessageText: newMessageText
+        }
+
     }as const
 }
 
-export const sendMessageActionCreator = () => {
+type SendMessageACType = ReturnType<typeof sendMessageAC>
+
+export const sendMessageAC = () => {
     return {
-        type: SEND_MESSAGE,
+        type: 'SEND-MESSAGE',
     }as const
 }
 

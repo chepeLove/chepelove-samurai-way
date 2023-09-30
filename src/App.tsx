@@ -8,6 +8,7 @@ import {News} from "./components/news/News";
 import {Music} from "./components/music/Music";
 import {Setting} from "./components/setting/Setting";
 import {DialogsContainer} from "./components/dialogs/DialogsContainer";
+import {Users} from "./components/users/Users";
 
 
 export const App = () => {
@@ -23,6 +24,9 @@ export const App = () => {
                     <Route component={() => <DialogsContainer
                     />}
                            path={'/dialogs'}
+                    />
+                    <Route component={() => <Users/>}
+                           path={'/users'}
                     />
                     <Route component={News} path={'/news'}/>
                     <Route component={Music} path={'/music'}/>
