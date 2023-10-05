@@ -1,15 +1,13 @@
 export type UsersType = {
+    name: string
     id: number
+    uniqueUrlName: null | string
+    photos: {
+        small: null | string
+        large: null | string
+    },
+    status: null | string
     followed: boolean
-    fullName: string
-    status: string
-    location: LocationType
-    photoUrl: string
-}
-
-type LocationType = {
-    city: string
-    county: string
 }
 
 
@@ -20,40 +18,40 @@ type ActionUsersDispatchType = FollowACType | UnfollowACType | SettUsersACType
 
 const initialState = {
     users: [
-        {
-            id: 1,
-            photoUrl: 'https://www.clipartmax.com/png/middle/16-162621_user-avatar-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D1%8B-%D0%B4%D0%BB%D1%8F-windows-10.png',
-            followed: false,
-            fullName: 'Dmitry',
-            status: 'I am a boss',
-            location: {
-                city: 'Minsk',
-                county: 'Belarus'
-            }
-        },
-        {
-            id: 2,
-            photoUrl: 'https://www.clipartmax.com/png/middle/16-162621_user-avatar-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D1%8B-%D0%B4%D0%BB%D1%8F-windows-10.png',
-            followed: true,
-            fullName: 'Mark',
-            status: 'I am a box',
-            location: {
-                city: 'Moscow',
-                county: 'Russia'
-            }
-        },
-        {
-            id: 3,
-            photoUrl: 'https://www.clipartmax.com/png/middle/16-162621_user-avatar-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D1%8B-%D0%B4%D0%BB%D1%8F-windows-10.png',
-            followed: false,
-            fullName: 'Kirill',
-            status: 'I am a superman',
-            location: {
-                city: 'Kiev',
-                county: 'Ukraine'
-            }
-        },
-    ]
+        // {
+        //     name: "sergei026",
+        //     id: 30107,
+        //     uniqueUrlName: null,
+        //     photos: {
+        //         small: null,
+        //         large: null
+        //     },
+        //     status: null,
+        //     followed: false
+        // },
+        // {
+        //     name: "eLukas21",
+        //     id: 30106,
+        //     uniqueUrlName: null,
+        //     photos: {
+        //         small: null,
+        //         large: null
+        //     },
+        //     status: null,
+        //     followed: false
+        // },
+        // {
+        //     name: "ilik",
+        //     id: 30105,
+        //     uniqueUrlName: null,
+        //     photos: {
+        //         small: "https://social-network.samuraijs.com/activecontent/images/users/30105/user-small.jpg?v=1",
+        //         large: "https://social-network.samuraijs.com/activecontent/images/users/30105/user.jpg?v=1"
+        //     },
+        //     status: null,
+        //     followed: false
+        // },
+    ] as UsersType[]
 }
 
 export const UsersReducer = (state: InitialUsersStateType = initialState, action: ActionUsersDispatchType) => {
