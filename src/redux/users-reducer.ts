@@ -14,44 +14,14 @@ export type UsersType = {
 export type InitialUsersStateType = typeof initialState
 
 
-type ActionUsersDispatchType = FollowACType | UnfollowACType | SettUsersACType
+type ActionUsersDispatchType = FollowACType | UnfollowACType | SettUsersACType | SetCurrentPageACType
+    | SetTotalUserCountACType
 
 const initialState = {
-    users: [
-        // {
-        //     name: "sergei026",
-        //     id: 30107,
-        //     uniqueUrlName: null,
-        //     photos: {
-        //         small: null,
-        //         large: null
-        //     },
-        //     status: null,
-        //     followed: false
-        // },
-        // {
-        //     name: "eLukas21",
-        //     id: 30106,
-        //     uniqueUrlName: null,
-        //     photos: {
-        //         small: null,
-        //         large: null
-        //     },
-        //     status: null,
-        //     followed: false
-        // },
-        // {
-        //     name: "ilik",
-        //     id: 30105,
-        //     uniqueUrlName: null,
-        //     photos: {
-        //         small: "https://social-network.samuraijs.com/activecontent/images/users/30105/user-small.jpg?v=1",
-        //         large: "https://social-network.samuraijs.com/activecontent/images/users/30105/user.jpg?v=1"
-        //     },
-        //     status: null,
-        //     followed: false
-        // },
-    ] as UsersType[]
+    users: [] as UsersType[],
+    pageSize:100,
+    totalUsersCount: 1000,
+    currentPage:1
 }
 
 export const UsersReducer = (state: InitialUsersStateType = initialState, action: ActionUsersDispatchType) => {
@@ -71,7 +41,13 @@ export const UsersReducer = (state: InitialUsersStateType = initialState, action
 
         }
         case 'SET-USERS': {
-            return {...state, users: [...state.users, ...action.payload.users]}
+            return {...state, users: action.payload.users}
+        }
+        case 'SET-CURRENT-PAGE':{
+            return {...state,currentPage: action.payload.currentPage}
+        }
+        case 'SET-TOTAL-USERS-COUNT':{
+            return {...state,totalUsersCount: action.payload.totalCount}
         }
         default:
             return state
@@ -110,4 +86,26 @@ export const setUsersAC = (users: UsersType[]) => {
             users
         }
     } as const
+}
+
+type SetCurrentPageACType = ReturnType<typeof setCurrentPageAC>
+
+export const  setCurrentPageAC = (currentPage:number) =>{
+    return {
+        type: 'SET-CURRENT-PAGE' as const,
+        payload:{
+            currentPage
+        }
+    }
+}
+
+type SetTotalUserCountACType = ReturnType<typeof setTotalUserCountAC>
+
+export const setTotalUserCountAC = (totalCount:number) => {
+    return{
+        type: 'SET-TOTAL-USERS-COUNT' as const,
+        payload:{
+            totalCount
+        }
+    }
 }
