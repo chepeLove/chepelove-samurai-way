@@ -18,8 +18,8 @@ type ActionUsersDispatchType = FollowACType | UnfollowACType | SettUsersACType |
     | SetTotalUserCountACType
 
 const initialState = {
-    users: [] as UsersType[],
-    pageSize:100,
+    users: [ ] as UsersType[],
+    pageSize:10,
     totalUsersCount: 1000,
     currentPage:1
 }
