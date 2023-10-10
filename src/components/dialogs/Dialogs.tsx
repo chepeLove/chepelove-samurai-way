@@ -25,7 +25,7 @@ export const Dialogs = (props: DialogsType) => {
 
     const onNewMessageChange = () => {
         if (newMessageElement.current !== null) {
-            props.updateNewMessageBody(newMessageElement.current.value)
+            props.updateNewMessage(newMessageElement.current.value)
         }
     }
     const onSendMessageClick = () => {

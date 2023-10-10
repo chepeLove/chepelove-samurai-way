@@ -33,7 +33,9 @@ export const Users = (props:UsersPropsType) => {
             return <div key={ user.id}>
                     <span>
                         <div >
-                            <img className={styles.userPhoto} src={user.photos.small ? user.photos.small : userPhoto} alt="" />
+                            <img className={styles.userPhoto} src={user.photos.small ?
+                                user.photos.small : userPhoto} alt=""
+                            />
                         </div>
                         <div>
                             {user.followed ?

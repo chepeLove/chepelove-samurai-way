@@ -12,7 +12,7 @@ export const Posts = (props:PostsType) => {
 
     const onPostChange = () => {
         if (newPostElement.current !== null) {
-           props.updateNewPostText(newPostElement.current.value)
+           props.updateNewPost(newPostElement.current.value)
         }
     }
     return (

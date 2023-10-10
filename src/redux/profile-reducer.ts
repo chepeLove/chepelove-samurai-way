@@ -35,7 +35,7 @@ export const ProfileReducer = (state: InitialProfileStateType = initialState,
                 likeCount: '110',
             }
              return {...state,posts: [...state.posts,newPost],newPostText: ''}
-        case 'UPDATE-NEW-POST-TEXT':
+        case 'UPDATE-NEW-POST':
             if (action.payload.newPostText) {
                 return {...state,newPostText:action.payload.newPostText }
             }
@@ -46,22 +46,22 @@ export const ProfileReducer = (state: InitialProfileStateType = initialState,
 
 };
 
-type AddPostActionCreatorType = ReturnType<typeof addPostActionCreator>
+type AddPostActionCreatorType = ReturnType<typeof addPost>
 
-export const addPostActionCreator = () => {
+export const addPost = () => {
     return {
         type: 'ADD-POST'
     }as const
 }
 
-type UpdateNewPostActionCreator = ReturnType<typeof updateNewPostActionCreator>
+type UpdateNewPostActionCreator = ReturnType<typeof updateNewPost>
 
 
-export const updateNewPostActionCreator = (newPostText: string) => {
+export const updateNewPost = (newPostText: string) => {
     return {
-        type: 'UPDATE-NEW-POST-TEXT',
+        type: 'UPDATE-NEW-POST',
         payload:{
-            newPostText: newPostText
+            newPostText
         }
     }as const
 }
