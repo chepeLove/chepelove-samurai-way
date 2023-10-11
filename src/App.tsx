@@ -18,7 +18,7 @@ export const App = () => {
                 <Navbar/>
                 <div className={"app__wrapper-content"}>
                     <Route render={() => <Profile
-                    />} path={'/profile'}
+                    />} path={'/profile*'}
                     />
                     <Route component={() => <DialogsContainer
                     />}
