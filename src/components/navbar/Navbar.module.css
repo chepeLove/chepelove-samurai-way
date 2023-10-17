@@ -8,6 +8,7 @@
 .item a{
     color:#FFFF;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .item a.active {
