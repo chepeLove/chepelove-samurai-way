@@ -3,3 +3,22 @@
     background: #23252B;
     outline: 1px solid rgba(58, 68, 76, 1);
 }
+.name{
+    color:#5992FF;
+    font-weight: bold;
+}
+
+.loginBlock{
+    float: right;
+    padding: 10px;
+}
+
+.loginBlock a{
+    text-decoration: none;
+    color:#FFFF;
+    font-weight: bold;
+}
+.loginBlock a.active{
+    color:#5992FF;
+}
+
