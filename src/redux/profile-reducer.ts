@@ -26,7 +26,7 @@ export type UserProfileType = {
     }
 }
 
-export type ActionProfileDispatchType = AddPostActionCreatorType | UpdateNewPostActionCreator | SetUserProfileType
+export type ProfileActionsType = AddPostActionCreatorType | UpdateNewPostActionCreator | SetUserProfileType
 
 
 export type InitialProfileStateType = {
@@ -48,7 +48,7 @@ const initialState: InitialProfileStateType = {
 }
 
 export const ProfileReducer = (state: InitialProfileStateType = initialState,
-                               action: ActionProfileDispatchType): InitialProfileStateType => {
+                               action: ProfileActionsType): InitialProfileStateType => {
     switch (action.type) {
         case 'ADD-POST':
             let newPost = {

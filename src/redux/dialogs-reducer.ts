@@ -9,7 +9,7 @@ export type messagesType = {
     id: string
 }
 
-export type ActionDialogsDispatchType = UpdateNewMessageTextACType | SendMessageACType
+export type DialogsActionsType = UpdateNewMessageTextACType | SendMessageACType
 
 export type InitialDialogsStateType = {
     messages:messagesType[]
@@ -35,7 +35,7 @@ const initialState:InitialDialogsStateType = {
     ] as dialogsType[]
 }
 export const DialogsReducer = (state: InitialDialogsStateType = initialState,
-                               action: ActionDialogsDispatchType): InitialDialogsStateType => {
+                               action: DialogsActionsType): InitialDialogsStateType => {
 
     switch (action.type) {
         case 'UPDATE-NEW-MESSAGE-TEXT':
