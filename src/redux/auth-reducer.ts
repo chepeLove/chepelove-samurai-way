@@ -54,7 +54,6 @@ export const setAuthUserData = (userId:string, login:string, email:string) =>{
 export const getAuthUserData = ():AppThunkType => {
     return (dispatch) => {
         authAPI.getMe().then((res)=>{
-            debugger
             if(res.resultCode === 0){
                 let {id,login,email} = res.data
                 dispatch(setAuthUserData(id,login,email))
