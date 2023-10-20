@@ -1,3 +1,6 @@
+import {AppThunkType} from "./redux-store";
+import {profileAPI} from "../api/api";
+
 export type postsType = {
     post: string,
     id: string,
@@ -99,5 +102,12 @@ export const setUserProfile = (profile: UserProfileType) => {
         payload: {
             profile
         }
+    }
+}
+export const getUserProfileTC = (userId: string):AppThunkType => {
+    return (dispatch) => {
+        profileAPI.getProfile(userId).then(response => {
+           dispatch(setUserProfile(response.data))
+        });
     }
 }

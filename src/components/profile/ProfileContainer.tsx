@@ -2,21 +2,18 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {setUserProfile,UserProfileType} from "../../redux/profile-reducer";
+import {getUserProfileTC,UserProfileType} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {profileAPI} from "../../api/api";
 
-class ProfileContainer extends React.Component<ProfileContainerType>{
+class ProfileContainer extends React.Component<ProfileContainerType> {
     componentDidMount() {
         let userId = this.props.match.params.userId ? this.props.match.params.userId : '2'
-        profileAPI.getProfile(userId).then(response => {
-                this.props.setUserProfile(response.data)
-            });
+        this.props.getUserProfileTC(userId)
     }
 
-    render(){
+    render() {
         return (
-            <Profile profile = {this.props.profile} />
+            <Profile profile={this.props.profile}/>
         );
     }
 
@@ -33,15 +30,15 @@ type MapStateToPropsType = {
 }
 
 type MapDispatchToProps = {
-    setUserProfile:(profile: UserProfileType) => void
+    getUserProfileTC: (userId: string) => void
 }
 
-const mapStateToProps = (state:AppStateType):MapStateToPropsType =>{
-    return{
-        profile:state.profilePage.profile
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+    return {
+        profile: state.profilePage.profile
     }
 }
 
 const WithUrlDataContainerComponent = withRouter(ProfileContainer)
 
-export default connect(mapStateToProps,{setUserProfile})(WithUrlDataContainerComponent)
+export default connect(mapStateToProps, {getUserProfileTC})(WithUrlDataContainerComponent)
