@@ -29,13 +29,15 @@ export type UserProfileType = {
     }
 }
 
-export type ProfileActionsType = AddPostActionCreatorType | UpdateNewPostActionCreator | SetUserProfileType
+export type ProfileActionsType = AddPostActionCreatorType | UpdateNewPostActionCreator
+    | SetUserProfileType | SetUserStatusType
 
 
 export type InitialProfileStateType = {
     posts: postsType[]
     newPostText: string
-    profile:null | UserProfileType
+    profile:null | UserProfileType,
+    status:string
 }
 
 const initialState: InitialProfileStateType = {
@@ -47,7 +49,8 @@ const initialState: InitialProfileStateType = {
         {post: 'qq', id: '5', likeCount: '50'},
     ],
     newPostText: '',
-    profile:null
+    profile:null,
+    status:''
 }
 
 export const ProfileReducer = (state: InitialProfileStateType = initialState,
@@ -67,6 +70,9 @@ export const ProfileReducer = (state: InitialProfileStateType = initialState,
             return state
         case 'SET-USER-PROFILE': {
             return {...state,profile:action.payload.profile}
+        }
+        case 'SET-USER-STATUS':{
+            return {...state,status:action.payload.status}
         }
         default:
             return state
@@ -109,5 +115,34 @@ export const getUserProfileTC = (userId: string):AppThunkType => {
         profileAPI.getProfile(userId).then(response => {
            dispatch(setUserProfile(response.data))
         });
+    }
+}
+
+type SetUserStatusType = ReturnType<typeof setUserStatus>
+
+ const setUserStatus = (status:string) => {
+    return{
+        type:'SET-USER-STATUS' as const,
+        payload:{
+            status
+        }
+    }
+}
+
+export const getUserStatusTC = (userId:string):AppThunkType => {
+    return (dispatch)=>{
+        profileAPI.getStatus(userId).then(res =>{
+            dispatch(setUserStatus(res.data))
+        })
+    }
+}
+
+export const updateUserStatusTC = (status:string):AppThunkType => {
+    return (dispatch)=>{
+        profileAPI.updateStatus(status).then(res =>{
+            if(res.data.resultCode === 0){
+            dispatch(setUserStatus(status))
+            }
+        })
     }
 }

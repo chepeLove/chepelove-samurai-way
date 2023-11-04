@@ -19,6 +19,9 @@ export const usersAPI = {
     },
     follow(id:number){
         return instance.post(`follow/${id}`).then(res =>res.data)
+    },
+    getProfile(userId:string){
+        return profileAPI.getProfile(userId)
     }
 }
 
@@ -31,5 +34,11 @@ export const authAPI = {
 export const profileAPI = {
     getProfile(userId:string){
         return instance.get(`profile/${userId}`)
+    },
+    getStatus(userId:string){
+        return instance.get(`profile/status/${userId}`)
+    },
+    updateStatus(status:string){
+        return instance.put(`/profile/status`,{status:status})
     }
 }
