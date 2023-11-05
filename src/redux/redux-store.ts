@@ -5,12 +5,14 @@ import {UsersActionsType, UsersReducer} from "./users-reducer";
 import {AuthActionsType, AuthReducer} from "./auth-reducer";
 import {ThunkAction} from "redux-thunk";
 import thunkMiddleware from "redux-thunk";
+import {reducer as formReducer} from 'redux-form'
 
 const rootReducer = combineReducers({
     profilePage:ProfileReducer,
     dialogsPage: DialogsReducer,
     usersPage: UsersReducer,
-    auth:AuthReducer
+    auth:AuthReducer,
+    form:formReducer
 });
 
 
