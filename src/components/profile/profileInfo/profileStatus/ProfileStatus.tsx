@@ -8,6 +8,17 @@ type ProfileStatusType = {
 export class ProfileStatus extends React.Component<ProfileStatusType, { editMode:boolean,status: string | null}> {
 
 
+    componentDidUpdate(prevProps: Readonly<ProfileStatusType>, prevState: Readonly<{
+        editMode: boolean;
+        status: string | null
+    }>) {
+        if(prevProps.status !== this.props.status){
+            this.setState({
+                status:this.props.status
+            })
+        }
+    }
+
     state = {
         editMode: false,
         status:this.props.status
