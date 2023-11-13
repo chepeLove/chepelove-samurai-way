@@ -29,13 +29,11 @@ export type UserProfileType = {
     }
 }
 
-export type ProfileActionsType = AddPostActionCreatorType | UpdateNewPostActionCreator
-    | SetUserProfileType | SetUserStatusType
+export type ProfileActionsType = AddPostActionCreatorType | SetUserProfileType | SetUserStatusType
 
 
 export type InitialProfileStateType = {
     posts: postsType[]
-    newPostText: string
     profile:null | UserProfileType,
     status:string
 }
@@ -48,7 +46,6 @@ const initialState: InitialProfileStateType = {
         {post: 'Hello', id: '4', likeCount: '40'},
         {post: 'qq', id: '5', likeCount: '50'},
     ],
-    newPostText: '',
     profile:null,
     status:''
 }
@@ -58,16 +55,11 @@ export const ProfileReducer = (state: InitialProfileStateType = initialState,
     switch (action.type) {
         case 'ADD-POST':
             let newPost = {
-                post: state.newPostText,
+                post: action.payload.newPostText,
                 id: '5',
                 likeCount: '110',
             }
-            return {...state, posts: [...state.posts, newPost], newPostText: ''}
-        case 'UPDATE-NEW-POST':
-            if (action.payload.newPostText) {
-                return {...state, newPostText: action.payload.newPostText}
-            }
-            return state
+            return {...state, posts: [...state.posts, newPost]}
         case 'SET-USER-PROFILE': {
             return {...state,profile:action.payload.profile}
         }
@@ -82,23 +74,15 @@ export const ProfileReducer = (state: InitialProfileStateType = initialState,
 
 type AddPostActionCreatorType = ReturnType<typeof addPost>
 
-export const addPost = () => {
+export const addPost = (newPostText:string) => {
     return {
-        type: 'ADD-POST'
-    } as const
-}
-
-type UpdateNewPostActionCreator = ReturnType<typeof updateNewPost>
-
-
-export const updateNewPost = (newPostText: string) => {
-    return {
-        type: 'UPDATE-NEW-POST',
-        payload: {
+        type: 'ADD-POST' as const,
+        payload:{
             newPostText
         }
-    } as const
+    }
 }
+
 
 type SetUserProfileType = ReturnType<typeof setUserProfile>
 

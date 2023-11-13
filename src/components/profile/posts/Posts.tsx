@@ -1,27 +1,17 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {Post} from "./post/Post";
 import {PostsType} from "./PostsContainer";
+import {AddNewPostFormRedux, addPostFormType} from "./addPostForm/addNewPostForm";
 
 export const Posts = (props:PostsType) => {
 
-        const newPostElement = useRef<HTMLTextAreaElement>(null)
-
-    const onAddPost = () => {
-        props.addPost()
-    }
-
-    const onPostChange = () => {
-        if (newPostElement.current !== null) {
-           props.updateNewPost(newPostElement.current.value)
-        }
+    const addPost = (value:addPostFormType) => {
+        props.addPost(value.newPostText)
     }
     return (
         <div>
             My posts
-            <div>
-                <textarea ref={newPostElement} value={props.newPostText} onChange={onPostChange}/>
-                <button onClick={onAddPost}>add post</button>
-            </div>
+            <AddNewPostFormRedux onSubmit={addPost}/>
             <div>
                 New posts
             </div>

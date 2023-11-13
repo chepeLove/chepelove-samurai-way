@@ -1,8 +1,9 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import style from './Dialogs.module.css'
 import {DialogsItems} from "./dialogsItem/DialogsItems";
 import {Message} from "./message/Message";
 import {DialogsType} from "./DialogsContainer";
+import {AddMessageFormRedux, AddMessageFormType} from "./addMessageForm/addMessageForm";
 
 export const Dialogs = (props: DialogsType) => {
 
@@ -20,16 +21,9 @@ export const Dialogs = (props: DialogsType) => {
         )
     })
 
-    const newMessageElement = useRef<HTMLTextAreaElement>(null)
 
-
-    const onNewMessageChange = () => {
-        if (newMessageElement.current !== null) {
-            props.updateNewMessage(newMessageElement.current.value)
-        }
-    }
-    const onSendMessageClick = () => {
-        props.sendMessage()
+    const AddMessage = (value:AddMessageFormType) => {
+        props.sendMessage(value.newMessageText)
     }
     return (
         <>
@@ -40,17 +34,7 @@ export const Dialogs = (props: DialogsType) => {
                 <div className={style.messages}>
                     <div>{messagesElements}</div>
                     <div>
-                        <div>
-                            <textarea
-                                ref={newMessageElement}
-                                placeholder="Enter your message"
-                                onChange={onNewMessageChange}
-                                value={props.dialogsPage.newMessageText}
-                            />
-                        </div>
-                        <div>
-                            <button onClick={onSendMessageClick}>Send</button>
-                        </div>
+                        <AddMessageFormRedux onSubmit = {AddMessage}/>
                     </div>
                 </div>
             </div>
