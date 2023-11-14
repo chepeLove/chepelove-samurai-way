@@ -2,23 +2,24 @@ import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {FormControl} from "../../common/formsControls/FormsControls";
 import {maxLengthCreator, required} from "../../../utils/validators/validators";
+import s from '../../common/formsControls/FormsControls.module.css'
 
 
 export type FormDataType = {
-    email:string
-    password:string
-    rememberMe:boolean
+    email: string
+    password: string
+    rememberMe: boolean
 }
 
 const maxLength100 = maxLengthCreator(100)
 
-const LoginForm: React.FC<InjectedFormProps <FormDataType>> = ({handleSubmit}) => {
+const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit, error}) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
                 <Field placeholder={'email'}
                        component={FormControl}
-                       tagName ={'input'}
+                       tagName={'input'}
                        name={'email'}
                        validate={[required, maxLength100]}
                 />
@@ -26,7 +27,7 @@ const LoginForm: React.FC<InjectedFormProps <FormDataType>> = ({handleSubmit}) =
             <div>
                 <Field placeholder={'password'}
                        component={FormControl}
-                       tagName ={'input'}
+                       tagName={'input'}
                        type={'password'}
                        name={'password'}
                        validate={[required, maxLength100]}
@@ -39,6 +40,9 @@ const LoginForm: React.FC<InjectedFormProps <FormDataType>> = ({handleSubmit}) =
                 />
                 <span>remember me</span>
             </div>
+            {error && <div className={s.formSummaryError}>
+                {error}
+            </div>}
             <div>
                 <button>Log in</button>
             </div>
@@ -47,5 +51,5 @@ const LoginForm: React.FC<InjectedFormProps <FormDataType>> = ({handleSubmit}) =
 };
 
 export const LoginReduxForm = reduxForm<FormDataType>({
-    form:'login'
+    form: 'login'
 })(LoginForm)

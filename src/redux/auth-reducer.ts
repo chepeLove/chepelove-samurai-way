@@ -1,5 +1,7 @@
 import {authAPI} from "../api/api";
 import {AppThunkType} from "./redux-store";
+import {stopSubmit} from "redux-form";
+import {FormAction} from "redux-form/lib/actions";
 
 export type AuthReducerInitialStateType = {
     id:string | null,
@@ -18,7 +20,7 @@ const AuthReducerInitialState = {
 
 }
 
-export type AuthActionsType = SetUserDataACType
+export type AuthActionsType = SetUserDataACType | FormAction
 
 export const AuthReducer = (state:AuthReducerInitialStateType = AuthReducerInitialState,action:AuthActionsType):AuthReducerInitialStateType => {
     switch (action.type) {
@@ -68,6 +70,9 @@ export const login  = (email:string,password:string,rememberMe:boolean):AppThunk
         authAPI.login(email,password,rememberMe).then((res)=>{
             if(res.data.resultCode === 0){
                 dispatch(getAuthUserData())
+            }else {
+                let messageError = res.data.messages.length > 0 ? res.data.messages[0] : 'Some error'
+                dispatch( stopSubmit('login',{_error:messageError}))
             }
         })
     }
