@@ -14,7 +14,7 @@ export const AddNewPostForm: React.FC<InjectedFormProps<addPostFormType>> = (pro
         <form onSubmit={props.handleSubmit}>
             <div>
                 <Field component={FormControl}
-                       type="textarea"
+                       tagName="textarea"
                        name="newPostText"
                        placeholder="Enter your post"
                        validate={[required, maxLength100]}/>

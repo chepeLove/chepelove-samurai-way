@@ -3,12 +3,12 @@ import {FC} from "react";
 import s from './FormsControls.module.css'
 
 type FormControlProps = WrappedFieldProps & {
-    type: 'textarea' | 'input'
+    tagName: 'textarea' | 'input'
 }
 
-export const FormControl: FC<FormControlProps> = ({ input, meta, type, ...props }) => {
+export const FormControl: FC<FormControlProps> = ({ input, meta, tagName, ...props }) => {
     const hasError = meta.touched && meta.error;
-    const Tag = type;
+    const Tag = tagName;
 
     return (
         <>

@@ -14,7 +14,7 @@ export const AddMessageForm: React.FC<InjectedFormProps<AddMessageFormType>> = (
         <form onSubmit={props.handleSubmit}>
             <div>
                 <Field component={FormControl}
-                       type="textarea"
+                       tagName="textarea"
                        name="newMessageText"
                        placeholder="Enter your message"
                        validate={[required, maxLength100]}/>

@@ -28,7 +28,7 @@ export const AuthReducer = (state:AuthReducerInitialStateType = AuthReducerIniti
                 id:action.payload.userId,
                 email:action.payload.email,
                 login:action.payload.login,
-                isAuth: true
+                isAuth: action.payload.isAuth
             }
         }
         default:
@@ -39,13 +39,14 @@ export const AuthReducer = (state:AuthReducerInitialStateType = AuthReducerIniti
 
 type SetUserDataACType = ReturnType<typeof setAuthUserData>
 
-export const setAuthUserData = (userId:string, login:string, email:string) =>{
+export const setAuthUserData = (userId:string | null, login:string | null, email:string | null,isAuth:boolean) =>{
     return {
         type:'SET-USER-DATA' as const,
         payload:{
             userId,
             login,
-            email
+            email,
+            isAuth
         }
     }
 }
@@ -56,8 +57,30 @@ export const getAuthUserData = ():AppThunkType => {
         authAPI.getMe().then((res)=>{
             if(res.resultCode === 0){
                 let {id,login,email} = res.data
-                dispatch(setAuthUserData(id,login,email))
+                dispatch(setAuthUserData(id,login,email,true))
             }
         })
     }
 }
+
+export const login  = (email:string,password:string,rememberMe:boolean):AppThunkType =>{
+    return (dispatch)=>{
+        authAPI.login(email,password,rememberMe).then((res)=>{
+            if(res.data.resultCode === 0){
+                dispatch(getAuthUserData())
+            }
+        })
+    }
+}
+
+export const logout  = ():AppThunkType =>{
+    return (dispatch)=>{
+        authAPI.logout().then((res)=>{
+            if(res.data.resultCode === 0){
+                dispatch(setAuthUserData(null,null,null,false))
+            }
+        })
+    }
+}
+
+
