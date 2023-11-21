@@ -9,12 +9,16 @@ import {compose} from "redux";
 
 class ProfileContainer extends React.Component<ProfileContainerType> {
     componentDidMount() {
-        let userId = this.props.match.params.userId
-        if(!userId){
-            userId = this.props.authorizedUserId ?? ''
+        let userId = this.props.match.params.userId;
+        if (!userId && this.props.authorizedUserId) {
+            userId = this.props.authorizedUserId
         }
-        this.props.getUserProfileTC(userId)
-        this.props.getUserStatusTC(userId)
+        if (!userId){
+            this.props.history.push('/login')
+        }
+            this.props.getUserProfileTC(userId);
+            this.props.getUserStatusTC(userId);
+
     }
 
     render() {
