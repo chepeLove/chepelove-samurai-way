@@ -15,25 +15,56 @@ type UsersPropsType = {
     followTC: (userId: number) => void
 }
 
-export const Users = (props: UsersPropsType) => {
+type UsersStateType = {
+    maxCurrentPage: number,
+    minCurrentPage: number,
+    step: number
+}
 
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+export class Users extends React.Component<UsersPropsType,UsersStateType>  {
 
-    let pages = []
-
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
+    constructor(props: UsersPropsType) {
+        super(props);
+        this.state = {
+            maxCurrentPage: 10,
+            minCurrentPage: 1,
+            step: 5
+        }
     }
+
+    render() {
+
+        const pages: number[] = []
+
+        for (let i = this.state.minCurrentPage; i <= this.state.maxCurrentPage; i++) {
+            pages.push(i)
+        }
+
+        const nextPagesUsers = (isDirection: boolean) => {
+            if (isDirection) {
+                this.setState((state) => ({
+                    minCurrentPage: state.minCurrentPage + state.step,
+                    maxCurrentPage: state.maxCurrentPage + state.step
+                }))
+            } else {
+                this.state.minCurrentPage > this.state.step &&
+                this.setState((state) => ({
+                    minCurrentPage: state.minCurrentPage - state.step,
+                    maxCurrentPage: state.maxCurrentPage - state.step
+                }))
+            }
+        }
+
     return <div>
         <div>
-            {pages.map(page => {
-                return <span onClick={() => {
-                    props.onPageChange(page)
-                }}
-                             className={props.currentPage === page ? styles.selectedPage : ''}>{page}</span>
+            <button onClick={() => nextPagesUsers(false)}>{'<'}</button>
+            {pages.map(el => {
+                return <button key={el} onClick={() => this.props.onPageChange(el)}>{el}</button>
+
             })}
+            <button onClick={() => nextPagesUsers(true)}>{'>'}</button>
         </div>
-        {props.users.map(user => {
+        {this.props.users.map(user => {
             return <div key={user.id}>
                     <span>
                         <div>
@@ -46,11 +77,11 @@ export const Users = (props: UsersPropsType) => {
                         </div>
                         <div>
                             {user.followed ?
-                                <button disabled={props.followingInProgress.some(id => id === user.id)}
-                                        onClick={() => {props.unfollowTC(user.id)}}>Unfollow</button>
+                                <button disabled={this.props.followingInProgress.some(id => id === user.id)}
+                                        onClick={() => {this.props.unfollowTC(user.id)}}>Unfollow</button>
                                 :
-                                <button disabled={props.followingInProgress.some(id => id === user.id)}
-                                        onClick={() => {props.followTC(user.id)}}>Follow</button>}
+                                <button disabled={this.props.followingInProgress.some(id => id === user.id)}
+                                        onClick={() => {this.props.followTC(user.id)}}>Follow</button>}
                         </div>
                     </span>
                 <span>
@@ -66,4 +97,5 @@ export const Users = (props: UsersPropsType) => {
             </div>
         })}
     </div>;
+    }
 }
