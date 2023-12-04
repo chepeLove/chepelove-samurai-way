@@ -3,23 +3,29 @@ import {Post} from "./post/Post";
 import {PostsType} from "./PostsContainer";
 import {AddNewPostFormRedux, addPostFormType} from "./addPostForm/addNewPostForm";
 
-export const Posts = (props:PostsType) => {
+export class Posts extends React.Component<PostsType>{
 
-    const addPost = (value:addPostFormType) => {
-        props.addPost(value.newPostText)
+    shouldComponentUpdate(nextProps: Readonly<PostsType>, nextState: Readonly<{}>): boolean {
+    return nextProps != this.props || nextProps != this.state
     }
-    return (
+
+    addPost = (value:addPostFormType) => {
+        this.props.addPost(value.newPostText)
+    }
+    render() {
+        return (
         <div>
             My posts
-            <AddNewPostFormRedux onSubmit={addPost}/>
+            <AddNewPostFormRedux onSubmit={this.addPost}/>
             <div>
                 New posts
             </div>
-            {props.posts.map((post)=>{
+            {this.props.posts.map((post)=>{
                 return(
                     <Post post = {post.post} likeCount ={post.likeCount}/>
                 )
             })}
         </div>
-    );
+    )
+    };
 };
