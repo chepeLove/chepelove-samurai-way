@@ -29,7 +29,7 @@ export type UserProfileType = {
     }
 }
 
-export type ProfileActionsType = AddPostActionCreatorType | SetUserProfileType | SetUserStatusType
+export type ProfileActionsType = AddPostActionCreatorType | SetUserProfileType | SetUserStatusType | DeletePostType
 
 
 export type InitialProfileStateType = {
@@ -66,6 +66,9 @@ export const ProfileReducer = (state: InitialProfileStateType = initialState,
         case 'SET-USER-STATUS':{
             return {...state,status:action.payload.status}
         }
+        case 'DELETE-POST':{
+            return {...state,posts:state.posts.filter((el) => el.id != action.payload.id)}
+        }
         default:
             return state
     }
@@ -94,6 +97,9 @@ export const setUserProfile = (profile: UserProfileType) => {
         }
     }
 }
+
+type DeletePostType = ReturnType<typeof deletePost>
+export const deletePost = (id:string) =>({type:'DELETE-POST',payload:{id}} as const )
 export const getUserProfileTC = (userId: string):AppThunkType => {
     return (dispatch) => {
         profileAPI.getProfile(userId).then(response => {
