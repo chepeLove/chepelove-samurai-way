@@ -1,21 +1,14 @@
 import {AppThunkType} from "./redux-store";
 import {getAuthUserData} from "./auth-reducer";
 
-export type AppReducerInitialStateType = {
-    initialized: boolean
-}
-
-
 const AppReducerInitialState = {
     initialized: false
 
 }
 
-export type AppActionsType = InitializedSuccessACACType
-
 export const AppReducer = (state: AppReducerInitialStateType = AppReducerInitialState, action: AppActionsType): AppReducerInitialStateType => {
     switch (action.type) {
-        case 'SET-INITIALIZED': {
+        case 'app/SET-INITIALIZED': {
             return {...state, initialized: true}
         }
         default:
@@ -24,21 +17,25 @@ export const AppReducer = (state: AppReducerInitialStateType = AppReducerInitial
 }
 
 
-type InitializedSuccessACACType = ReturnType<typeof initializedSuccessAC>
+//Actions
+export const initializedSuccessAC = () => ({type: 'app/SET-INITIALIZED'} as const)
 
-export const initializedSuccessAC = () => {
-    return {
-        type: 'SET-INITIALIZED',
-    } as const
-}
-
-export const initializeAppTC = (): AppThunkType => {
-    return (dispatch) => {
-        let result = dispatch(getAuthUserData())
-        result.then(()=>{
-            dispatch(initializedSuccessAC())
-        })
+//Thunks
+export const initializeAppTC = (): AppThunkType => async (dispatch) => {
+    try {
+        await dispatch(getAuthUserData());
+        dispatch(initializedSuccessAC());
+    }catch (e){
+        console.log(e)
     }
+    }
+
+//Types
+
+export type AppReducerInitialStateType = {
+    initialized: boolean
 }
 
+export type AppActionsType = InitializedSuccessACACType
 
+type InitializedSuccessACACType = ReturnType<typeof initializedSuccessAC>
