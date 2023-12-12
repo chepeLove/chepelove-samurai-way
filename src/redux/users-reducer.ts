@@ -23,7 +23,7 @@ export type UsersActionsType = FollowACType | UnfollowACType | SettUsersACType |
 const initialState = {
     users: [ ] as UsersType[],
     pageSize:100,
-    totalUsersCount: 1000,
+    totalItemsCount: 1000,
     currentPage:1,
     isFetching:true,
     followingInProgress:[] as number[]
@@ -52,7 +52,7 @@ export const UsersReducer = (state: InitialUsersStateType = initialState, action
             return {...state,currentPage: action.payload.currentPage}
         }
         case 'SET-TOTAL-USERS-COUNT':{
-            return {...state,totalUsersCount: action.payload.totalCount}
+            return {...state,totalItemsCount: action.payload.totalCount}
         }
         case 'TOGGLE-IS-FETCHING':{
             return {...state,isFetching: action.payload.isFetching}
