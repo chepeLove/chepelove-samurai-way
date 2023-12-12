@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/460.99d6fa0e.chunk.css","mappings":"AAAA,sBAEI,iBAAkB,CADlB,cAEJ","sources":["components/profile/posts/post/Post.module.css"],"sourcesContent":[".item img {\r\n    max-width: 50px;\r\n    border-radius: 50%;\r\n}"],"names":[],"sourceRoot":""}

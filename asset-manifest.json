@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/chepelove-samurai-way/static/css/main.2779063a.css",
+    "main.js": "/chepelove-samurai-way/static/js/main.fe851173.js",
+    "static/css/460.99d6fa0e.chunk.css": "/chepelove-samurai-way/static/css/460.99d6fa0e.chunk.css",
+    "static/js/460.2ac93649.chunk.js": "/chepelove-samurai-way/static/js/460.2ac93649.chunk.js",
+    "static/css/637.eb17e0fa.chunk.css": "/chepelove-samurai-way/static/css/637.eb17e0fa.chunk.css",
+    "static/js/637.837cb3a6.chunk.js": "/chepelove-samurai-way/static/js/637.837cb3a6.chunk.js",
+    "static/media/spinner-preloaderx.svg": "/chepelove-samurai-way/static/media/spinner-preloaderx.e3bf41527f005a20c28895b5af00cae2.svg",
+    "index.html": "/chepelove-samurai-way/index.html",
+    "main.2779063a.css.map": "/chepelove-samurai-way/static/css/main.2779063a.css.map",
+    "main.fe851173.js.map": "/chepelove-samurai-way/static/js/main.fe851173.js.map",
+    "460.99d6fa0e.chunk.css.map": "/chepelove-samurai-way/static/css/460.99d6fa0e.chunk.css.map",
+    "460.2ac93649.chunk.js.map": "/chepelove-samurai-way/static/js/460.2ac93649.chunk.js.map",
+    "637.eb17e0fa.chunk.css.map": "/chepelove-samurai-way/static/css/637.eb17e0fa.chunk.css.map",
+    "637.837cb3a6.chunk.js.map": "/chepelove-samurai-way/static/js/637.837cb3a6.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2779063a.css",
+    "static/js/main.fe851173.js"
+  ]
+}
