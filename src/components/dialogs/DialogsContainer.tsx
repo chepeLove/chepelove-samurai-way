@@ -30,7 +30,9 @@ compose(withAuthRedirectComponent,connect(mapStateToProps,{
 
 const AuthRedirectComponent = withAuthRedirectComponent(Dialogs)
 
-export const DialogsContainer = connect(mapStateToProps,{
+  const DialogsContainer = connect(mapStateToProps,{
     sendMessage,
 })(AuthRedirectComponent)
+
+export default DialogsContainer;
 

@@ -5,9 +5,7 @@ import {Route, withRouter} from "react-router-dom";
 import {News} from "./components/news/News";
 import {Music} from "./components/music/Music";
 import {Setting} from "./components/setting/Setting";
-import {DialogsContainer} from "./components/dialogs/DialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
-import ProfileContainer from "./components/profile/ProfileContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
 import {LoginContainer} from "./components/login/loginContainer/LoginContainer";
 import {connect} from "react-redux";
@@ -15,6 +13,7 @@ import {compose} from "redux";
 import {initializeAppTC} from "./redux/app-reducer";
 import {AppStateType} from "./redux/redux-store";
 import {Preloader} from "./components/common/preloader/Preloader";
+import {withSuspense} from "./hoc/withSuspense";
 
 
 type MapDispatchToProps = {
@@ -22,12 +21,15 @@ type MapDispatchToProps = {
 }
 
 type MapStateToProps = {
-    initialized:boolean
+    initialized: boolean
 }
 
 type AppType = MapDispatchToProps & MapStateToProps
 
- class App extends React.Component<AppType>{
+const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer"))
+const DialogsContainer = React.lazy(() => import('./components/dialogs/DialogsContainer'))
+
+class App extends React.Component<AppType> {
 
     componentDidMount() {
         this.props.initializeAppTC()
@@ -35,7 +37,7 @@ type AppType = MapDispatchToProps & MapStateToProps
 
     render() {
 
-        if(!this.props.initialized) return <Preloader/>
+        if (!this.props.initialized) return <Preloader/>
 
         return (
             <div className="app__wrapper">
@@ -43,8 +45,12 @@ type AppType = MapDispatchToProps & MapStateToProps
                 <Navbar/>
                 <div className={"app__wrapper-content"}>
                     <Route component={() => <LoginContainer/>} path={'/login'}/>
-                    <Route render={() => <ProfileContainer/>} path={'/profile:userId?'}/>
-                    <Route component={() => <DialogsContainer/>} path={'/dialogs'}/>
+                    <Route
+                        component={withSuspense(ProfileContainer)}
+                        path={'/profile:userId?'}/>
+                    <Route
+                        component={withSuspense(DialogsContainer)}
+                        path={'/dialogs'}/>
                     <Route component={() => <UsersContainer/>} path={'/users'}/>
                     <Route component={News} path={'/news'}/>
                     <Route component={Music} path={'/music'}/>
@@ -55,10 +61,10 @@ type AppType = MapDispatchToProps & MapStateToProps
     }
 }
 
-const mapStateToProps = (state:AppStateType):MapStateToProps=>{
-    return{
-        initialized:state.app.initialized
+const mapStateToProps = (state: AppStateType): MapStateToProps => {
+    return {
+        initialized: state.app.initialized
     }
 }
 
-export default compose<React.ComponentType>(withRouter,connect(mapStateToProps, {initializeAppTC}))(App)
+export default compose<React.ComponentType>(withRouter, connect(mapStateToProps, {initializeAppTC}))(App)
