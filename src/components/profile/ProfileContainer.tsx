@@ -2,13 +2,20 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {getUserProfileTC, getUserStatusTC, UserProfileType,updateUserStatusTC} from "../../redux/profile-reducer";
+import {
+    getUserProfileTC,
+    getUserStatusTC,
+    UserProfileType,
+    updateUserStatusTC,
+    savePhotoTC
+} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirectComponent} from "../../hoc/withAuthRedirectComponent";
 import {compose} from "redux";
 
 class ProfileContainer extends React.Component<ProfileContainerType> {
-    componentDidMount() {
+
+    refreshProfile (){
         let userId = this.props.match.params.userId;
         if (!userId && this.props.authorizedUserId) {
             userId = this.props.authorizedUserId
@@ -16,9 +23,16 @@ class ProfileContainer extends React.Component<ProfileContainerType> {
         if (!userId){
             this.props.history.push('/login')
         }
-            this.props.getUserProfileTC(userId);
-            this.props.getUserStatusTC(userId);
-
+        this.props.getUserProfileTC(userId);
+        this.props.getUserStatusTC(userId);
+    }
+    componentDidMount() {
+        this.refreshProfile()
+    }
+    componentDidUpdate(prevProps: Readonly<ProfileContainerType>, prevState: Readonly<{}>, snapshot?: any) {
+        if(this.props.match.params.userId != prevProps.match.params.userId){
+            this.refreshProfile()
+        }
     }
 
     render() {
@@ -27,6 +41,8 @@ class ProfileContainer extends React.Component<ProfileContainerType> {
             <Profile profile={this.props.profile}
                      status={this.props.status}
                      updateUserStatus = {this.props.updateUserStatusTC}
+                     isOwner = {!this.props.match.params.userId}
+                     savePhoto = {this.props.savePhotoTC}
             />
         );
     }
@@ -49,6 +65,7 @@ type MapDispatchToProps = {
     getUserProfileTC: (userId: string) => void
     getUserStatusTC: (userId: string) => void
     updateUserStatusTC: (status:string) => void
+    savePhotoTC:(photo:File) => string
 
 }
 
@@ -67,7 +84,8 @@ export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         getUserProfileTC,
         getUserStatusTC,
-        updateUserStatusTC
+        updateUserStatusTC,
+        savePhotoTC
     }),
     withRouter,
     withAuthRedirectComponent

@@ -7,6 +7,8 @@ type ProfileType = {
     profile:UserProfileType | null
     status:string
     updateUserStatus: (status:string) => void
+    isOwner:boolean
+    savePhoto:(photo:File) => string
 }
 
 export const Profile = (props:ProfileType) => {
@@ -15,6 +17,8 @@ export const Profile = (props:ProfileType) => {
             <ProfileInfo profile = {props.profile}
                          status={props.status}
                          updateUserStatus = {props.updateUserStatus}
+                         isOwner={props.isOwner}
+                         savePhoto = {props.savePhoto}
             />
             <PostsContainer/>
         </div>

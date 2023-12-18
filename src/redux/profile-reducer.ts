@@ -29,13 +29,18 @@ export type UserProfileType = {
     }
 }
 
-export type ProfileActionsType = AddPostActionCreatorType | SetUserProfileType | SetUserStatusType | DeletePostType
+export type ProfileActionsType =
+    AddPostActionCreatorType
+    | SetUserProfileType
+    | SetUserStatusType
+    | DeletePostType
+    | savePhotoSuccessType
 
 
 export type InitialProfileStateType = {
     posts: postsType[]
-    profile:null | UserProfileType,
-    status:string
+    profile: null | UserProfileType,
+    status: string
 }
 
 const initialState: InitialProfileStateType = {
@@ -46,8 +51,8 @@ const initialState: InitialProfileStateType = {
         {post: 'Hello', id: '4', likeCount: '40'},
         {post: 'qq', id: '5', likeCount: '50'},
     ],
-    profile:null,
-    status:''
+    profile: null,
+    status: ''
 }
 
 export const ProfileReducer = (state: InitialProfileStateType = initialState,
@@ -61,13 +66,20 @@ export const ProfileReducer = (state: InitialProfileStateType = initialState,
             }
             return {...state, posts: [...state.posts, newPost]}
         case 'SET-USER-PROFILE': {
-            return {...state,profile:action.payload.profile}
+            return {...state, profile: action.payload.profile}
         }
-        case 'SET-USER-STATUS':{
-            return {...state,status:action.payload.status}
+        case 'SET-USER-STATUS': {
+            return {...state, status: action.payload.status}
         }
-        case 'DELETE-POST':{
-            return {...state,posts:state.posts.filter((el) => el.id != action.payload.id)}
+        case 'DELETE-POST': {
+            return {...state, posts: state.posts.filter((el) => el.id != action.payload.id)}
+        }
+        case 'SAVE-PHOTO-SUCCESS':{
+            debugger
+            if(state.profile){
+                return {...state,profile:{...state.profile,photos:{...state.profile.photos,large:action.payload.photo}}}
+            }
+           return state
         }
         default:
             return state
@@ -77,10 +89,10 @@ export const ProfileReducer = (state: InitialProfileStateType = initialState,
 
 type AddPostActionCreatorType = ReturnType<typeof addPost>
 
-export const addPost = (newPostText:string) => {
+export const addPost = (newPostText: string) => {
     return {
         type: 'ADD-POST' as const,
-        payload:{
+        payload: {
             newPostText
         }
     }
@@ -98,40 +110,62 @@ export const setUserProfile = (profile: UserProfileType) => {
     }
 }
 
+type savePhotoSuccessType = ReturnType<typeof savePhotoSuccess>
+
+export const savePhotoSuccess = (photo: string) => {
+    return {
+        type: 'SAVE-PHOTO-SUCCESS' as const,
+        payload: {
+            photo
+        }
+    }
+}
+
 type DeletePostType = ReturnType<typeof deletePost>
-export const deletePost = (id:string) =>({type:'DELETE-POST',payload:{id}} as const )
-export const getUserProfileTC = (userId: string):AppThunkType => {
+export const deletePost = (id: string) => ({type: 'DELETE-POST', payload: {id}} as const)
+export const getUserProfileTC = (userId: string): AppThunkType => {
     return (dispatch) => {
         profileAPI.getProfile(userId).then(response => {
-           dispatch(setUserProfile(response.data))
+            dispatch(setUserProfile(response.data))
         });
     }
 }
 
 type SetUserStatusType = ReturnType<typeof setUserStatus>
 
- const setUserStatus = (status:string) => {
-    return{
-        type:'SET-USER-STATUS' as const,
-        payload:{
+const setUserStatus = (status: string) => {
+    return {
+        type: 'SET-USER-STATUS' as const,
+        payload: {
             status
         }
     }
 }
 
-export const getUserStatusTC = (userId:string):AppThunkType => {
-    return (dispatch)=>{
-        profileAPI.getStatus(userId).then(res =>{
+export const getUserStatusTC = (userId: string): AppThunkType => {
+    return (dispatch) => {
+        profileAPI.getStatus(userId).then(res => {
             dispatch(setUserStatus(res.data))
         })
     }
 }
 
-export const updateUserStatusTC = (status:string):AppThunkType => {
-    return (dispatch)=>{
-        profileAPI.updateStatus(status).then(res =>{
-            if(res.data.resultCode === 0){
-            dispatch(setUserStatus(status))
+export const updateUserStatusTC = (status: string): AppThunkType => {
+    return (dispatch) => {
+        profileAPI.updateStatus(status).then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(setUserStatus(status))
+            }
+        })
+    }
+}
+
+export const savePhotoTC = (photo: File): AppThunkType => {
+    debugger
+    return (dispatch) => {
+        profileAPI.savePhoto(photo).then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(savePhotoSuccess(res.data.data.photos.large))
             }
         })
     }
