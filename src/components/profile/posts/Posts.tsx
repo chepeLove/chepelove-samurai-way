@@ -19,7 +19,7 @@ export class Posts extends PureComponent<PostsType> {
                 </div>
                 {this.props.posts.map((post) => {
                     return (
-                        <Post post={post.post} likeCount={post.likeCount}/>
+                        <Post key={post.id} post={post.post} likeCount={post.likeCount}/>
                     )
                 })}
             </div>

@@ -2,13 +2,15 @@ import React from 'react';
 import {ProfileInfo} from "./profileInfo/ProfileInfo";
 import {PostsContainer} from "./posts/PostsContainer";
 import {UserProfileType} from "../../redux/profile-reducer";
+import {ProfileDataType} from "./profileInfo/profileData/ProfileDataForm";
 
 type ProfileType = {
     profile:UserProfileType | null
     status:string
     updateUserStatus: (status:string) => void
     isOwner:boolean
-    savePhoto:(photo:File) => string
+    savePhoto:(photo:File) => void
+    saveProfile: (newProfileData: ProfileDataType) => Promise<UserProfileType>
 }
 
 export const Profile = (props:ProfileType) => {
@@ -19,6 +21,7 @@ export const Profile = (props:ProfileType) => {
                          updateUserStatus = {props.updateUserStatus}
                          isOwner={props.isOwner}
                          savePhoto = {props.savePhoto}
+                         saveProfile = {props.saveProfile}
             />
             <PostsContainer/>
         </div>

@@ -1,5 +1,7 @@
 import {AppThunkType} from "./redux-store";
 import {profileAPI} from "../api/api";
+import {ProfileDataType} from "../components/profile/profileInfo/profileData/ProfileDataForm";
+import {stopSubmit} from "redux-form";
 
 export type postsType = {
     post: string,
@@ -161,12 +163,24 @@ export const updateUserStatusTC = (status: string): AppThunkType => {
 }
 
 export const savePhotoTC = (photo: File): AppThunkType => {
-    debugger
     return (dispatch) => {
         profileAPI.savePhoto(photo).then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(savePhotoSuccess(res.data.data.photos.large))
             }
         })
+    }
+}
+export const saveProfileTC = (newProfileData:ProfileDataType): AppThunkType => {
+    return async (dispatch, getState) => {
+        const userId = getState().auth.id ?? ''
+        let res = await profileAPI.saveProfile(newProfileData);
+        if (res.data.resultCode === 0) {
+            dispatch(getUserProfileTC(userId))
+        } else {
+            let messageError = res.data.messages.length > 0 ? res.data.messages[0] : 'Some error'
+            dispatch(stopSubmit('profileData', {_error: messageError}))
+            return Promise.reject(res.data.messages[0])
+        }
     }
 }
