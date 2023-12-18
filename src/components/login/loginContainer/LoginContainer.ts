@@ -4,18 +4,20 @@ import {Login} from "../Login";
 import {AppStateType} from "../../../redux/redux-store";
 
 type MapDispatchToPropsType = {
-    login:(email:string,password:string,rememberMe:boolean) => void
+    login:(email:string,password:string,rememberMe:boolean,captcha:string | null) => void
 }
 
 type MapStateToPropsType = {
     isAuth:boolean
+    captchaUrl: string | null
 }
 
 export type LoginPropsType = MapStateToPropsType & MapDispatchToPropsType
 
 const mapStateToProps =(state:AppStateType):MapStateToPropsType =>{
     return {
-        isAuth:state.auth.isAuth
+        isAuth:state.auth.isAuth,
+        captchaUrl:state.auth.captchaUrl
     }
 }
 

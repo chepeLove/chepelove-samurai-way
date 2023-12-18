@@ -4,10 +4,10 @@ import {LoginPropsType} from "./loginContainer/LoginContainer";
 import {Redirect} from "react-router-dom";
 
 
-export const Login:FC<LoginPropsType> = ({login,isAuth}) => {
+export const Login:FC<LoginPropsType> = ({login,isAuth,captchaUrl}) => {
 
     const onSubmit = (formData:FormDataType) => {
-        login(formData.email,formData.password,formData.rememberMe)
+        login(formData.email,formData.password,formData.rememberMe,formData.captcha)
     }
 
     if(isAuth){
@@ -17,7 +17,7 @@ export const Login:FC<LoginPropsType> = ({login,isAuth}) => {
     return (
         <div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <LoginReduxForm captchaUrl={captchaUrl} onSubmit={onSubmit}/>
         </div>
     );
 };
