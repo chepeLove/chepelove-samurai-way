@@ -1,4 +1,4 @@
-import {usersAPI} from "../api/api";
+import {ResultCode, usersAPI} from "../api/api";
 import {AppThunkType} from "./redux-store";
 
 export type UsersType = {
@@ -160,7 +160,7 @@ export const unfollowTC = (userId:number):AppThunkType => {
     return (dispatch) => {
         dispatch(toggleFollowingProgress(true,userId))
         usersAPI.unfollow(userId).then(response => {
-            if(response.resultCode === 0){
+            if(response.resultCode === ResultCode.Success){
                 dispatch(unfollow(userId))
             }
             dispatch(toggleFollowingProgress(false,userId))
@@ -171,7 +171,7 @@ export const followTC = (userId:number):AppThunkType => {
     return (dispatch) => {
         dispatch(toggleFollowingProgress(true,userId))
         usersAPI.follow(userId).then(response => {
-            if(response.resultCode === 0){
+            if(response.resultCode === ResultCode.Success){
                 dispatch(follow(userId))
             }
             dispatch(toggleFollowingProgress(false,userId))

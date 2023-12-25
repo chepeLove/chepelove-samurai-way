@@ -27,10 +27,10 @@ export const usersAPI = {
 
 export const authAPI = {
     getMe(){
-        return instance.get('auth/me').then(res => res.data)
+        return instance.get<BaseResponseType<AuthMeType>>('auth/me').then(res => res.data)
     },
     login(email:string,password:string,rememberMe:boolean = false,captcha:string|null = null){
-        return instance.post('auth/login',{email,password,rememberMe,captcha})
+        return instance.post<BaseResponseType<{userId:string}>>('auth/login',{email,password,rememberMe,captcha})
     },
     logout(){
         return instance.delete('auth/login')
@@ -63,4 +63,24 @@ export const profileAPI = {
     saveProfile(newProfileData:ProfileDataType){
         return instance.put(`profile`,newProfileData)
     }
+}
+
+//Types
+
+type BaseResponseType<T> = {
+    data:T
+    resultCode:ResultCode
+    messages:string[]
+}
+
+type AuthMeType = {
+    id:string
+    email:string
+    login:string
+}
+
+export enum ResultCode {
+    Success,
+    Error,
+    Captcha = 10
 }

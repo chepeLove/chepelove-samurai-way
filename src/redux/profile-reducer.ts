@@ -1,5 +1,5 @@
 import {AppThunkType} from "./redux-store";
-import {profileAPI} from "../api/api";
+import {profileAPI, ResultCode} from "../api/api";
 import {ProfileDataType} from "../components/profile/profileInfo/profileData/ProfileDataForm";
 import {stopSubmit} from "redux-form";
 
@@ -155,7 +155,7 @@ export const getUserStatusTC = (userId: string): AppThunkType => {
 export const updateUserStatusTC = (status: string): AppThunkType => {
     return (dispatch) => {
         profileAPI.updateStatus(status).then(res => {
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === ResultCode.Success) {
                 dispatch(setUserStatus(status))
             }
         })
@@ -175,7 +175,7 @@ export const saveProfileTC = (newProfileData:ProfileDataType): AppThunkType => {
     return async (dispatch, getState) => {
         const userId = getState().auth.id ?? ''
         let res = await profileAPI.saveProfile(newProfileData);
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.Success) {
             dispatch(getUserProfileTC(userId))
         } else {
             let messageError = res.data.messages.length > 0 ? res.data.messages[0] : 'Some error'

@@ -1,4 +1,4 @@
-import {authAPI, securiryAPI} from "../api/api";
+import {authAPI, ResultCode, securiryAPI} from "../api/api";
 import {AppThunkType} from "./redux-store";
 import {stopSubmit} from "redux-form";
 import {FormAction} from "redux-form/lib/actions";
@@ -54,11 +54,11 @@ export const getAuthUserData = () => async (dispatch: Dispatch) => {
 export const login = (email: string, password: string, rememberMe: boolean,captcha:string | null): AppThunkType => async (dispatch) => {
     try {
         let response = await authAPI.login(email, password, rememberMe,captcha)
-        if (response.data.resultCode === 0) {
+        if (response.data.resultCode === ResultCode.Success) {
             dispatch(getAuthUserData())
         }
         else {
-            if(response.data.resultCode === 10){
+            if(response.data.resultCode === ResultCode.Captcha){
                 dispatch(getCaptchaUrl())
             }
             let messageError = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
@@ -72,7 +72,7 @@ export const login = (email: string, password: string, rememberMe: boolean,captc
 export const logout = (): AppThunkType => async (dispatch) => {
     try {
         const response = await authAPI.logout()
-        if (response.data.resultCode === 0) {
+        if (response.data.resultCode === ResultCode.Success) {
             dispatch(setAuthUserData(null, null, null, false))
         }
     } catch (e) {
