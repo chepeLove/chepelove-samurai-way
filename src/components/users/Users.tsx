@@ -1,9 +1,10 @@
 import styles from "./Users.module.css";
 import userPhoto from "../../assets/avatar-user.png";
 import React from "react";
-import {UsersType} from "../../redux/users-reducer";
+import {FilterUsersType, UsersType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
 import {Paginator} from "../common/paginator/Paginator";
+import {UserSearchForm} from "./UserSearchForm/UserSearchForm";
 
 type UsersPropsType = {
     totalItemsCount: number
@@ -14,6 +15,7 @@ type UsersPropsType = {
     followingInProgress: number[]
     unfollowTC: (userId: number) => void
     followTC: (userId: number) => void
+    onFilterChanged : (filter:FilterUsersType)=> void
 }
 
 export class Users extends React.Component<UsersPropsType> {
@@ -25,6 +27,7 @@ export class Users extends React.Component<UsersPropsType> {
                        onPageChange={this.props.onPageChange}
                        currentPage={this.props.currentPage}
             />
+            <UserSearchForm onFilterChanged = {this.props.onFilterChanged}/>
             {this.props.users.map(user => {
                 return <div key={user.id}>
                     <span>
