@@ -13,7 +13,9 @@ import {
     getTotalUsersCount, getUsers,
     getUsersFilter
 } from "../../redux/users-selectors";
+import queryString from "query-string";
 
+type QueryParamsType = { term?: string, page?: string, friend?: string };
 
 export const  Users = () =>{
 
@@ -28,12 +30,34 @@ export const  Users = () =>{
 
 
     useEffect(() => {
-        dispatch(getUsersTC(currentPage,pageSize,filter))
+        const parsed = queryString.parse(history.location.search.substr(1)) as QueryParamsType
+        debugger
+        let actualPage = currentPage
+        let actualFilter = filter
+        if(!!parsed.page) actualPage=Number(parsed.page)
+        if(!!parsed.term) actualFilter={...actualFilter,term:parsed.term as string}
+        switch (parsed.friend){
+            case 'null':
+                actualFilter={...actualFilter,friend:null}
+                break
+            case 'true':
+                actualFilter={...actualFilter,friend:true}
+                break
+            case 'false':
+                actualFilter={...actualFilter,friend:false}
+                break
+        }
+        dispatch(getUsersTC(actualPage,pageSize,actualFilter))
     }, []);
 
     // useEffect(() => {
-    //     history.push({pathname: '/users', search: `?term=${filter.term}&friend=${filter.friend}`})
+    //     const query:QueryParamsType = {}
+    //     if(!!filter.term) query.term = filter.term
+    //     if(!!filter.friend !== null) query.friend = String(filter.friend)
+    //     if(currentPage !== 1) query.page = String(currentPage)
+    //     history.push({pathname: '/users', search: queryString.stringify(query)})
     // }, [filter,currentPage]);
+
 
     const onPageChange = (page: number) => {
         dispatch(getUsersTC(page, pageSize,filter))
