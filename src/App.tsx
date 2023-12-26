@@ -5,7 +5,6 @@ import {Route, withRouter} from "react-router-dom";
 import {News} from "./components/news/News";
 import {Music} from "./components/music/Music";
 import {Setting} from "./components/setting/Setting";
-import UsersContainer from "./components/users/UsersContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
 import {LoginContainer} from "./components/login/loginContainer/LoginContainer";
 import {connect} from "react-redux";
@@ -14,6 +13,7 @@ import {initializeAppTC} from "./redux/app-reducer";
 import {AppStateType} from "./redux/redux-store";
 import {Preloader} from "./components/common/preloader/Preloader";
 import {withSuspense} from "./hoc/withSuspense";
+import {UsersPage} from "./components/users/UsersContainer";
 
 
 type MapDispatchToProps = {
@@ -51,7 +51,7 @@ class App extends React.Component<AppType> {
                     <Route
                         component={withSuspense(DialogsContainer)}
                         path={'/dialogs'}/>
-                    <Route component={() => <UsersContainer/>} path={'/users'}/>
+                    <Route component={() => <UsersPage pageTitle={'Users'}/>} path={'/users'}/>
                     <Route component={News} path={'/news'}/>
                     <Route component={Music} path={'/music'}/>
                     <Route component={Setting} path={'/setting'}/>

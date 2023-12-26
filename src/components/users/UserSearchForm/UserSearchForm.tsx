@@ -3,11 +3,11 @@ import {Field, Form, Formik} from "formik";
 import {FilterUsersType} from "../../../redux/users-reducer";
 
 
-
+type FriendFormType = 'true' | 'false' | 'null'
 
 type FormType ={
     term:string
-    friend:'true'|'false'|'null'
+    friend:FriendFormType
 }
 
 type UserSearchFormPropsType = {
@@ -35,7 +35,7 @@ export const UserSearchForm:FC<UserSearchFormPropsType> = ({onFilterChanged,filt
     return (
         <div>
             <Formik
-                initialValues={{ term: filter.term,friend:'null'}}
+                initialValues={{ term: filter.term,friend:String(filter.friend)as FriendFormType}}
                 validate={userSearchFormValidate}
                 onSubmit={submit}
             >
