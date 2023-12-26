@@ -57,6 +57,7 @@ export class UsersContainer extends React.Component<UsersComponentType> {
                        followTC = {this.props.followTC}
                        followingInProgress={this.props.followingInProgress}
                        onFilterChanged={this.onFilterChanged}
+                       filter={this.props.filter}
                 />
             }
         </>

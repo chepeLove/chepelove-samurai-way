@@ -16,6 +16,7 @@ type UsersPropsType = {
     unfollowTC: (userId: number) => void
     followTC: (userId: number) => void
     onFilterChanged : (filter:FilterUsersType)=> void
+    filter:FilterUsersType
 }
 
 export class Users extends React.Component<UsersPropsType> {
@@ -27,7 +28,7 @@ export class Users extends React.Component<UsersPropsType> {
                        onPageChange={this.props.onPageChange}
                        currentPage={this.props.currentPage}
             />
-            <UserSearchForm onFilterChanged = {this.props.onFilterChanged}/>
+            <UserSearchForm onFilterChanged = {this.props.onFilterChanged} filter = {this.props.filter}/>
             {this.props.users.map(user => {
                 return <div key={user.id}>
                     <span>

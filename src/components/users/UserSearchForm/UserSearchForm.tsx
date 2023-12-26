@@ -12,6 +12,7 @@ type FormType ={
 
 type UserSearchFormPropsType = {
     onFilterChanged : (filter:FilterUsersType)=> void
+    filter:FilterUsersType
 }
 
 
@@ -21,7 +22,7 @@ const userSearchFormValidate = ()=>{
 }
 
 
-export const UserSearchForm:FC<UserSearchFormPropsType> = ({onFilterChanged}) => {
+export const UserSearchForm:FC<UserSearchFormPropsType> = ({onFilterChanged,filter}) => {
 
     const submit = (values:FormType, { setSubmitting }:{setSubmitting:(isSubmitting: boolean) => void}) => {
         const filer:FilterUsersType = {
@@ -34,7 +35,7 @@ export const UserSearchForm:FC<UserSearchFormPropsType> = ({onFilterChanged}) =>
     return (
         <div>
             <Formik
-                initialValues={{ term: '',friend:'null'}}
+                initialValues={{ term: filter.term,friend:'null'}}
                 validate={userSearchFormValidate}
                 onSubmit={submit}
             >
