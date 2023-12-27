@@ -8,6 +8,9 @@ export const Navbar = () => {
                 <NavLink to={"/profile"} activeClassName={style.active}>Profile</NavLink>
             </div>
             <div className={style.item}>
+                <NavLink to={"/chat"} activeClassName={style.active}>Chat</NavLink>
+            </div>
+            <div className={style.item}>
                 <NavLink to={"/dialogs"} activeClassName={style.active}>Messages</NavLink>
             </div>
             <div className={style.item}>

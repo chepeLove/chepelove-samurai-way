@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import './App.css';
 import {Navbar} from "./components/navbar/Navbar";
 import {Route, withRouter} from "react-router-dom";
@@ -28,6 +28,7 @@ type AppType = MapDispatchToProps & MapStateToProps
 
 const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer"))
 const DialogsContainer = React.lazy(() => import('./components/dialogs/DialogsContainer'))
+const ChatPage = React.lazy(()=> import('./pages/ChatPage/ChatPage'))
 
 class App extends React.Component<AppType> {
 
@@ -55,6 +56,8 @@ class App extends React.Component<AppType> {
                     <Route component={News} path={'/news'}/>
                     <Route component={Music} path={'/music'}/>
                     <Route component={Setting} path={'/setting'}/>
+                    <Route component={withSuspense(ChatPage)} path={'/chat'}/>
+                    {/*<Route component={<div>404 NOT FOUND</div>} path={'*'}/>*/}
                 </div>
             </div>
         );
