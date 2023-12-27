@@ -1,31 +1,20 @@
-import React, {ChangeEvent, FC, useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, useState} from 'react';
+import {useDispatch} from "react-redux";
+import {sendMessage} from "../../../redux/chat-reducer";
 
 
-export const AddChatMessageForm: FC<{ webSocketChanel: WebSocket | null }> = ({webSocketChanel}) => {
+export const AddChatMessageForm: FC<{}> = ({}) => {
 
     const [message, setMessage] = useState('')
+    const dispatch = useDispatch()
 
-    const [readyStatus, setReadyStatus] = useState<'pending' | 'ready'>('pending')
-
-
-    useEffect(() => {
-        const  openChanelHandler = () => {
-            setReadyStatus('ready')
-        }
-        webSocketChanel?.addEventListener('open', openChanelHandler)
-
-
-        return ()=>{
-            webSocketChanel?.removeEventListener('open',openChanelHandler)
-    }
-    }, [webSocketChanel]);
 
     const onChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setMessage(event.currentTarget.value)
     }
     const sendChatMessageHandler = () => {
         if (message) {
-            webSocketChanel?.send(message)
+           dispatch(sendMessage(message))
             setMessage('')
         }
     }
@@ -34,7 +23,7 @@ export const AddChatMessageForm: FC<{ webSocketChanel: WebSocket | null }> = ({w
         <>
             <textarea onChange={onChangeHandler} value={message}/>
             <button onClick={sendChatMessageHandler}
-                    disabled={webSocketChanel === null || readyStatus !== 'ready'}>Send
+                    >Send
             </button>
         </>
     );

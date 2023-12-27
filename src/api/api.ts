@@ -1,7 +1,7 @@
 import axios from "axios";
 import {ProfileDataType} from "../components/profile/profileInfo/profileData/ProfileDataForm";
 
-const instance = axios.create({
+export const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
     withCredentials: true,
     headers: {

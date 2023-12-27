@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {ChatMessageType} from "../../Chat/Chat";
+import {ChatMessageType} from "../../../../api/chat-api";
 
 export const ChatMessage:FC<{message:ChatMessageType}> = ({message}) => {
     return (
