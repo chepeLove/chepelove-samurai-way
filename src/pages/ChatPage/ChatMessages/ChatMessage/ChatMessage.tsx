@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
-import {ChatMessageType} from "../../../../api/chat-api";
+import {ChatMessageAPIType} from "../../../../api/chat-api";
 
-export const ChatMessage:FC<{message:ChatMessageType}> = ({message}) => {
+export const ChatMessage:FC<{message:ChatMessageAPIType}> = React.memo(({message}) => {
     return (
         <div>
             <img style={{width:'30px'}} src={message.photo} alt=""/> <b>{message.userName}</b>
@@ -10,4 +10,4 @@ export const ChatMessage:FC<{message:ChatMessageType}> = ({message}) => {
             <hr/>
         </div>
     );
-};
+})

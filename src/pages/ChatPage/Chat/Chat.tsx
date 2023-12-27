@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
 import {ChatMessages} from "../ChatMessages/ChatMessages";
 import {AddChatMessageForm} from "../AddChatMessageForm/AddChatMessageForm";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {startGetMessages, stopGetMessages} from "../../../redux/chat-reducer";
+import {AppStateType} from "../../../redux/redux-store";
+import {StatusChanel} from "../../../api/chat-api";
 
 
 
@@ -10,6 +12,7 @@ import {startGetMessages, stopGetMessages} from "../../../redux/chat-reducer";
 export const Chat = () => {
 
     const dispatch = useDispatch()
+    const status = useSelector<AppStateType,StatusChanel>(state => state.chat.status)
 
     useEffect(() => {
         dispatch(startGetMessages())
@@ -20,8 +23,11 @@ export const Chat = () => {
 
     return (
         <>
-            <ChatMessages />
-            <AddChatMessageForm />
+            {status === 'error' && <div>Some error occurred.Please refresh the page </div>}
+            <>
+                <ChatMessages/>
+                <AddChatMessageForm/>
+            </>
         </>
     );
 };
